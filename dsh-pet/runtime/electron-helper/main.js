@@ -49,6 +49,7 @@ const { createDpi } = require('./main/dpi.js');
 const { createBridge } = require('./main/bridge.js');
 const { createTray } = require('./main/tray.js');
 const { createWindows } = require('./main/windows.js');
+const { createLiyuPanel } = require('./main/liyu-panel.js');
 const { registerIpc } = require('./main/ipc.js');
 const { createDisplaySync } = require('./main/displays.js');
 const { dshHomeDir, resolveUserDataDir } = require('./main/user-data.js');
@@ -300,6 +301,14 @@ app.whenReady().then(() => {
   };
   powerMonitor.on('resume', reassertTaskbar);
   powerMonitor.on('unlock-screen', reassertTaskbar);
+
+  const liyuPanel = createLiyuPanel({
+    BrowserWindow,
+    windows: () => petWindows.state.windows,
+    helperDir: __dirname,
+    screen,
+  });
+  ipcMain.on('liyu:toggle', () => liyuPanel.toggle());
 
   registerIpc({ ipcMain, petWindows, shell, openTarget: OPEN_TARGET, petRoute: PET_ROUTE });
   createDisplaySync({ screen, petWindows, dpi });

@@ -6,6 +6,8 @@
  * @module dsh-pet/src/client/index
  */
 import { makeFactory } from './app.ts';
+// 鲤鱼信箱：双击宠物开面板、未读红点。纯增量，不改动宠物本体逻辑。
+import './liyu/boot.ts';
 
 declare const window: {
   __ModuleLoader__: {
